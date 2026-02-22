@@ -1,4 +1,3 @@
-import Navbar from "@/components/navbar"
 import {Button} from "@/components/ui/button";
 import Image from "next/image"
 import DataCard from "@/components/DataCard";
@@ -28,7 +27,6 @@ const steps: Step[] = [
 export default function Home() {
     return (
         <div className="min-h-screen bg-background">
-            <Navbar/>
             <main>
                 <section className="relative h-180 overflow-hidden">
                     <Image
@@ -103,7 +101,9 @@ export default function Home() {
                             ))}
                         </div>
                     </section>
-                    <Image src="/background.png" width="1200" height="400" alt="Picture"/>
+                    <section className="relative h-full w-full">
+                        <Image src="/photograph.png" alt="Picture" className="object-cover" fill/>
+                    </section>
                 </section>
                 <section className="flex h-96 flex-col items-center justify-center gap-5 bg-emerald-600 text-white">
                     <h1 className="text-4xl font-bold">
