@@ -3,6 +3,8 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
+    "build": "pnpm --dir frontend build",
+    "start": "pnpm -r --parallel --filter ./frontend --filter ./backend start",
     "dev": "pnpm -r --parallel --filter ./frontend --filter ./backend dev",
     "dev:frontend": "pnpm --dir frontend dev",
     "dev:backend": "pnpm --dir backend dev"
