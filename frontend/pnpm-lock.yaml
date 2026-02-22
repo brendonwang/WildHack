@@ -6,11 +6,7 @@ settings:
 
 importers:
 
-  .: {}
-
-  backend: {}
-
-  frontend:
+  .:
     dependencies:
       class-variance-authority:
         specifier: ^0.7.1
