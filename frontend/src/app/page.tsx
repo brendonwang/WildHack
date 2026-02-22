@@ -2,6 +2,7 @@ import {Button} from "@/components/ui/button";
 import Image from "next/image"
 import DataCard from "@/components/DataCard";
 import {Camera, MapPin, Users, TrendingUp} from 'lucide-react'
+import Link from "next/link"
 
 type Step = {
     title: string
@@ -45,7 +46,9 @@ export default function Home() {
                             Interactive visualization of spatial data and analytics.
                         </p>
                         <Button className="mt-6 bg-emerald-600 px-8 py-6 text-lg hover:bg-emerald-700" size="lg">
-                            Report a Sighting
+                            <Link href={"/report"}>
+                                Report a Sighting
+                            </Link>
                         </Button>
                     </div>
                 </section>
@@ -110,7 +113,9 @@ export default function Home() {
                         Ready to Make a Difference?
                     </h1>
                     <Button className="bg-white px-8 py-6 text-lg text-emerald-600 hover:bg-gray-100">
-                        Submit Your First Report
+                        <Link href={"/report"}>
+                            Submit Your First Report
+                        </Link>
                     </Button>
                 </section>
             </main>

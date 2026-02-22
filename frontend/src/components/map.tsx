@@ -170,7 +170,7 @@ export default function SightingsMap() {
     }, [])
 
     function ClickHandler() {
-        useMapEvent('click', (e) => {
+        useMapEvent('click', (e: { latlng: { lat: number; lng: number } }) => {
             if (makePin) {
                 return
             }
@@ -182,8 +182,8 @@ export default function SightingsMap() {
         return null
     }
 
-    const handleSubmit = useCallback(
-        async (event) => {
+    const handleSubmit =
+        async () => {
             if (!pendingPosition) {
                 toast.error('Missing map position. Click the map again to report a sighting.')
                 return
@@ -223,10 +223,7 @@ export default function SightingsMap() {
             } finally {
                 setIsSubmitting(false)
             }
-        },
-        [animalName, details, files, pendingPosition, resetForm],
-    )
-
+        }
     return (
         <div className="relative h-full">
             {showDisconnected && (

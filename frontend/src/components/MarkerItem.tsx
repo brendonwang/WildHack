@@ -1,5 +1,6 @@
-import { Marker, Popup } from "react-leaflet";
-import L from "leaflet";
+import {Marker, Popup} from "react-leaflet";
+import L, {LatLngExpression} from "leaflet";
+
 const markerIcon = L.icon({
     iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
     iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -10,7 +11,7 @@ const markerIcon = L.icon({
     shadowSize: [41, 41],
 })
 
-export default function MarkerItem({ pin }) {
+export default function MarkerItem({pin}: { pin: { position: LatLngExpression, text: string } }) {
     return <Marker position={pin.position} icon={markerIcon}>
         <Popup>{pin.text}</Popup>
     </Marker>
