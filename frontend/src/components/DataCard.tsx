@@ -10,11 +10,11 @@ type DataCardProps = {
 
 export default function DataCard({icon: Icon, title, children}: DataCardProps) {
     return (
-        <div className="max-w-2xl rounded-2xl border p-6 flex flex-col gap-2">
+        <div className="flex flex-col items-center gap-2 rounded-2xl border p-6 hover:shadow-lg">
             <Button
                 variant="ghost"
                 size="icon"
-                className="border"
+                className="border  hover:bg-white"
             >
                 <Icon/>
             </Button>

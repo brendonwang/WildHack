@@ -8,9 +8,9 @@ const navItems = [
   { label: "GitHub", href: "https://github.com/shadcn-ui/ui", external: true },
 ]
 
-export function Navbar() {
+export default function Navbar() {
   return (
-    <header className="border-b">
+    <header className="border-b sticky">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="text-lg font-semibold tracking-tight">
           Wildlife Tracker
