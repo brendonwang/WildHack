@@ -3,7 +3,7 @@
 import {MapContainer, TileLayer, useMapEvent} from 'react-leaflet'
 import {socket, pinsData} from './socket'
 import {Button} from '@/components/ui/button'
-import {useCallback, useEffect, useRef, useState} from 'react'
+import {useCallback, useEffect, useRef, useState, type FormEvent} from 'react'
 import MarkerItem from './MarkerItem'
 import {
     Dialog,
@@ -142,9 +142,18 @@ export default function SightingsMap() {
             setPins(new Map(value as Iterable<readonly [unknown, unknown]>))
         }
 
+        function onNewPin(value: never[]) {
+            setPins((prev) => {
+                const newVal = new Map(prev)
+                newVal.set(value[0], value[1])
+                return newVal
+            })
+        }
+
         socket.on('connect', onConnect)
         socket.on('disconnect', onDisconnect)
         socket.on('init', onInit)
+        socket.on('newpin', onNewPin)
 
         if (pinsData) {
             setPins(new Map(pinsData))
@@ -154,6 +163,7 @@ export default function SightingsMap() {
             socket.off('connect', onConnect)
             socket.off('disconnect', onDisconnect)
             socket.off('init', onInit)
+            socket.off('newpin', onNewPin)
             if (disconnectTimer.current) {
                 clearTimeout(disconnectTimer.current)
             }
@@ -180,38 +190,39 @@ export default function SightingsMap() {
         return null
     }
 
-    const handleSubmit =
-        async () => {
-            if (!pendingPosition) {
-                toast.error('Missing map position. Click the map again to report a sighting.')
-                return
-            }
+    const handleSubmit = (event: { preventDefault: () => void }) => {
+        event.preventDefault()
 
-            if (animalName.trim().length === 0) {
-                toast.error('Animal name is required.')
-                return
-            }
-
-            setIsSubmitting(true)
-
-            try {
-                const formData = new FormData()
-                formData.append('animalName', animalName.trim())
-                formData.append('details', details.trim())
-                formData.append('lat', String(pendingPosition.lat))
-                formData.append('lng', String(pendingPosition.lng))
-                formData.append('image', JSON.stringify(files))
-                socket.emit("upload", formData)
-                toast.success('Sighting submitted.')
-                setMakePin(false)
-                resetForm()
-            } catch (error) {
-                const message = error instanceof Error ? error.message : 'Failed to submit report'
-                toast.error(message)
-            } finally {
-                setIsSubmitting(false)
-            }
+        if (!pendingPosition) {
+            toast.error('Missing map position. Click the map again to report a sighting.')
+            return
         }
+
+        if (animalName.trim().length === 0) {
+            toast.error('Animal name is required.')
+            return
+        }
+
+        setIsSubmitting(true)
+
+        try {
+            const formData = new FormData()
+            formData.append('animalName', animalName.trim())
+            formData.append('details', details.trim())
+            formData.append('lat', String(pendingPosition.lat))
+            formData.append('lng', String(pendingPosition.lng))
+            formData.append('image', JSON.stringify(files))
+            socket.emit("upload", Object.fromEntries(formData))
+            toast.success('Sighting submitted.')
+            setMakePin(false)
+            resetForm()
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Failed to submit report'
+            toast.error(message)
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
     return (
         <div className="relative h-full">
             {showDisconnected && (

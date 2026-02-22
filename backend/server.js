@@ -38,9 +38,17 @@ let Pins = new Map([
 io.on("connection", (socket) => {
     console.log("User Connected")
     io.to(socket.id).emit('init', [...Pins.entries()])
-})
-io.on("upload", (socket) => {
-    console.log("New Data Point Created")
+    socket.on("upload", (payload) => {
+        console.log(payload)
+        let newPin = [crypto.randomUUID(), {
+            position: [Number(payload.lat), Number(payload.lng)],
+            text: payload.details
+        }]
+        Pins.set(newPin[0], newPin[1])
+        io.emit("newpin", newPin)
+        console.log("New Pin:")
+        console.log(Pins);
+    })
 })
 
 httpServer.listen(4000);
