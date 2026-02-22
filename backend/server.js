@@ -6,7 +6,7 @@ const httpServer = createServer();
 
 const io = new Server(httpServer, {
     cors: {
-        origin: ["https://admin.socket.io", "http://localhost:3000"],
+        origin: ["https://admin.socket.io", "http://localhost:3000", "https://wildlife-tracker-omega.vercel.app/"],
         credentials: true
     },
     connectionStateRecovery: {}
