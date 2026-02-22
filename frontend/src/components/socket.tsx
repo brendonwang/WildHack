@@ -1,7 +1,7 @@
 import {io} from 'socket.io-client';
 
-// "undefined" means the URL will be computed from the `window.location` object
-const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:4000';
+// Use an explicit backend URL when configured; otherwise keep local dev default.
+const URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export const socket = io(URL);
 

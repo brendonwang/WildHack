@@ -29,8 +29,6 @@ import {
 import {toast} from 'sonner'
 import {Upload, X} from 'lucide-react'
 
-const BACKEND_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:4000'
-
 type PendingPosition = {
     lat: number
     lng: number
@@ -203,17 +201,7 @@ export default function SightingsMap() {
                 formData.append('lat', String(pendingPosition.lat))
                 formData.append('lng', String(pendingPosition.lng))
                 formData.append('image', JSON.stringify(files))
-
-                const response = await fetch(`${BACKEND_URL}/api/pins`, {
-                    method: 'POST',
-                    body: formData,
-                })
-
-                if (!response.ok) {
-                    const errorText = await response.text()
-                    throw new Error(errorText || 'Failed to submit report')
-                }
-
+                socket.emit("upload", formData)
                 toast.success('Sighting submitted.')
                 setMakePin(false)
                 resetForm()
