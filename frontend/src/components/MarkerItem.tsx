@@ -11,8 +11,18 @@ const markerIcon = L.icon({
     shadowSize: [41, 41],
 })
 
-export default function MarkerItem({pin}: { pin: { position: LatLngExpression, text: string } }) {
+export default function MarkerItem({pin}: { pin: { position: LatLngExpression, name: string, details: string } }) {
     return <Marker position={pin.position} icon={markerIcon}>
-        <Popup>{pin.text}</Popup>
+        <Popup>
+            <h1 className="text-center font-bold text-lg">
+                {pin.name}
+            </h1>
+            <p className="text-emerald-700">
+                {Math.round(pin.position[0] * 10000) / 10000}° {pin.position[0] >= 0 ? 'N' : 'S'}, {Math.round(pin.position[1] * 10000) / 10000}° {pin.position[1] >= 0 ? 'E' : 'W'}
+            </p>
+            <p className="italic">
+                "{pin.details}"
+            </p>
+        </Popup>
     </Marker>
 }
