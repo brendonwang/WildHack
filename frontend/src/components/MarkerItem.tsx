@@ -1,5 +1,6 @@
 import {Marker, Popup} from "react-leaflet";
 import L, {LatLngExpression} from "leaflet";
+import {clsx} from "clsx";
 
 const markerIcon = L.icon({
     iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -20,7 +21,7 @@ export default function MarkerItem({pin}: { pin: { position: LatLngExpression, n
             <p className="text-emerald-700">
                 {Math.round(pin.position[0] * 10000) / 10000}° {pin.position[0] >= 0 ? 'N' : 'S'}, {Math.round(pin.position[1] * 10000) / 10000}° {pin.position[1] >= 0 ? 'E' : 'W'}
             </p>
-            <p className="italic">
+            <p className={clsx("italic", pin.details.trim() === "" ? "hidden" : "block")}>
                 "{pin.details}"
             </p>
         </Popup>
